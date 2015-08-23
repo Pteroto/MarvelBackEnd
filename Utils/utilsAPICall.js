@@ -3,7 +3,6 @@
  */
 
 var crypto = require('crypto');
-var md5 = crypto.createHash('md5');
 
 var publicKey = 'cb4d52d0be976cd19824a9a3887bf177';
 var privateKey = 'a65eeb1e21b9783ac2fafabe7aec0773b2de1772';
@@ -13,7 +12,7 @@ module.exports = {
    getKey: function getKey(){
     var returnList = Array;
     var ts = Date.now().toString();
-    var hash = md5.update(ts + privateKey + publicKey).digest('hex');
+    var hash = crypto.createHash('md5').update(ts + privateKey + publicKey).digest('hex');
 
     returnList['ts'] = ts.toString();
     returnList['hash'] = hash;
