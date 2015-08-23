@@ -12,12 +12,20 @@ var heroParser = require('../models/heroModel');
 /* GET hero page. */
 router.get('/:hero', function(req, res) {
     var hero = req.params.hero;
-    getHero(function(result){
+    getHero(function(result) {
         var resultJson = JSON.parse(result);
-        res.render('hero', {hero: heroParser.getName(resultJson),
-            desc: heroParser.getDescription(resultJson),
-            img: heroParser.getImage(resultJson),
-            copyright: heroParser.getCreditsMarvel(resultJson)});
+        if (resultJson.data.results[0] == undefined) {
+            res.render('404Hero', {
+                message: 'Personagem n&atildeo encontrado'
+            });
+        } else {
+            res.render('hero', {
+                hero: heroParser.getName(resultJson),
+                desc: heroParser.getDescription(resultJson),
+                img: heroParser.getImage(resultJson),
+                copyright: heroParser.getCreditsMarvel(resultJson)
+            });
+        }
     }, hero);
 });
 
@@ -30,13 +38,12 @@ function getHero(result, hero){
     var ts = apiKeyList['ts'];
     var hash = apiKeyList['hash'];
     var publicKey = apiKeyList['publickey'];
-    var name = hero;
 
     var options = {
         protocol: 'http:',
         host: 'gateway.marvel.com',
         pathname: '/v1/public/characters',
-        query: {'ts':ts, 'hash':hash, 'apikey': publicKey, 'name': name},
+        query: {'ts':ts, 'hash':hash, 'apikey': publicKey, 'name': hero},
         method: 'GET'
     };
 
