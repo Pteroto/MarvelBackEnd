@@ -5,8 +5,8 @@
 var crypto = require('crypto');
 var md5 = crypto.createHash('md5');
 
-var publicKey = 'your key';
-var privateKey = 'your key';
+var publicKey = 'cb4d52d0be976cd19824a9a3887bf177';
+var privateKey = 'a65eeb1e21b9783ac2fafabe7aec0773b2de1772';
 
 module.exports = {
 

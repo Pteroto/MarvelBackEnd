@@ -7,35 +7,30 @@ var express = require('express');
 var url = require('url');
 var router = express.Router();
 var apiCall = require('../Utils/utilsAPICall');
-var jsonParser = require('../Utils/utilsJSONParser');
+var heroParser = require('../models/heroModel');
 
 /* GET hero page. */
-router.get('/', function(req, res) {
+router.get('/:hero', function(req, res) {
+    var hero = req.params.hero;
     getHero(function(result){
-        var resultJson = jsonParser.setJson(result);
-        /*res.send(
-            '<h1>'+jsonParser.getName(resultJson) +'</h1>'+
-            jsonParser.getDescription(resultJson)+'<br>'+
-            '<img src='+ jsonParser.getImage(resultJson)+ ' width="250" height="250">'+'<br>'+
-            jsonParser.getCreditsMarvel(resultJson)
-        );*/
-        res.render('hero', {hero: jsonParser.getName(resultJson),
-            desc: jsonParser.getDescription(resultJson),
-            img: jsonParser.getImage(resultJson),
-            copyright: jsonParser.getCreditsMarvel(resultJson)});
-    });
+        var resultJson = JSON.parse(result);
+        res.render('hero', {hero: heroParser.getName(resultJson),
+            desc: heroParser.getDescription(resultJson),
+            img: heroParser.getImage(resultJson),
+            copyright: heroParser.getCreditsMarvel(resultJson)});
+    }, hero);
 });
 
 module.exports = router;
 
-function getHero(result){
+function getHero(result, hero){
 
     var apiKeyList = apiCall.getKey();
 
     var ts = apiKeyList['ts'];
     var hash = apiKeyList['hash'];
     var publicKey = apiKeyList['publickey'];
-    var name = 'thor';
+    var name = hero;
 
     var options = {
         protocol: 'http:',
