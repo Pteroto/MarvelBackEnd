@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Pteroto/MarvelBackEnd.svg?branch=master)](https://travis-ci.org/Pteroto/MarvelBackEnd)
+
 # MarvelBackEnd
 The project get data from Marvel Server about heroes, HQs, etc.
 
